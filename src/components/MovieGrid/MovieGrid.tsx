@@ -1,9 +1,8 @@
-import React, { use } from 'react';
+ 
 import css from './MovieGrid.module.css';
-import fetchMovies from '../../services/movieService';
-import App from '../App/App';
+ 
 import type { Movie } from '../../types/movie';
-import { useState } from 'react';
+ 
 import { toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useEffect} from 'react';

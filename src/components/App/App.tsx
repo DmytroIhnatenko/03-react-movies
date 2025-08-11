@@ -1,9 +1,10 @@
+import React from "react";
 import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
-import styles from "./App.module.css";
+
 import fetchMovies from "../../services/movieService";
-import { Movie } from "../../types/movie"; 
-import React from "react";
+import type { Movie } from "../../types/movie"; 
+
 import MovieGrid from "../MovieGrid/MovieGrid";
 import {Loader} from "../Loader/Loader";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
@@ -66,7 +67,7 @@ setError('');
     <>
     <ToastContainer position="top-center" autoClose={5000} />
       <SearchBar onSubmit={handleSearch} />
-   
+   <h3>Search Results for: "{query}"</h3>
    {loading ? (
         <Loader /> 
       ) : error ? (
