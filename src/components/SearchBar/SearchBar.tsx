@@ -1,57 +1,58 @@
+import { useRef } from 'react';
 import styles from './SearchBar.module.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from "react-hot-toast";
 
 export interface SearchBarProps {
-  onSubmit: (query: string) => void;  
+  onSubmit: (query: string) => void | Promise<void>;
 }
 
 export default function SearchBar({ onSubmit }: SearchBarProps) {
- const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-   event.preventDefault();
-    const form = event.currentTarget;
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    const formData = new FormData(form);
-    const query = formData.get('query') as string;
-    
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-      if (!query) {
-        
-      toast.error('Please enter a search query');
+    const query = inputRef.current?.value.trim() || '';
+
+    if (!query) {
+      toast.error('Please enter your search query');
       return;
     }
-    onSubmit (query);
-    form.reset();
- };
+
+    await onSubmit(query);
+
+     
+    if (inputRef.current) inputRef.current.value = '';
+  };
 
   return (
-  <header className={styles.header}>
-    <ToastContainer position="top-center" autoClose={3000} />
- <div className={styles.container}>
-  
- <a
- className={styles.link}
- href="https://www.themoviedb.org/"
- target="_blank"
- rel="noopener noreferrer"
- >
- Powered by TMDB
- </a>
- <form onSubmit={handleSubmit} className={styles.form}>
- <input
- className={styles.input}
- type="text"
- name="query"
- autoComplete="off"
- placeholder="Search movies..."
- autoFocus
-/>
- <button className={styles.button} type="submit">
-      Search
-      </button>
-</form>
- </div>
-</header>
+    <header className={styles.header}>
+      <div className={styles.container}>
+        <a
+          className={styles.link}
+          href="https://www.themoviedb.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Powered by TMDB
+        </a>
 
+       
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            ref={inputRef}
+            className={styles.input}
+            type="text"
+            name="query"
+            autoComplete="off"
+            placeholder="Search movies..."
+            autoFocus
+          />
+          <button className={styles.button} type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+    </header>
   );
 }
