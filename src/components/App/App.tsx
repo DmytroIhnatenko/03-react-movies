@@ -13,31 +13,31 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const selectMovie = (movie: Movie) => setSelectedMovie(movie);
+  const selectMovie = (movie: Movie) => {
+    setSelectedMovie(movie);
+  };
 
-  const closeModal = () => setSelectedMovie(null);
+  const closeModal = () => {
+    setSelectedMovie(null); 
+  };
 
+  
   const handleSearch = async (searchQuery: string) => {
-    if (!searchQuery.trim()) {
-      toast.error("Please enter your search query");
-      return;
-    }
-
     setQuery(searchQuery);
-    setMovies([]); // Очистка предыдущих результатов
+    setMovies([]); 
     setLoading(true);
 
     try {
       const result = await fetchMovies(searchQuery);
 
       if (result.length === 0) {
-        toast.error("No movies found for your request");
+        toast.error("No movies found for your request.");
       }
 
       setMovies(result);
     } catch (error) {
       console.error("Error fetching movies:", error);
-      toast.error("Error fetching movies");
+      toast.error("Error fetching movies.");
     } finally {
       setLoading(false);
     }
